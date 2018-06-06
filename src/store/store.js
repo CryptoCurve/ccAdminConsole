@@ -122,10 +122,8 @@ var Store = () => {
     })
     .then(res => {
       if(res.status == 401) {
-        emitter.emit('Unauthorised', null, null)
         return res;
       } else if(res.status == 404) {
-        emitter.emit('Unauthorised', null, null)
         return res;
       }
 

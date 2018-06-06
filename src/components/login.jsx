@@ -8,6 +8,7 @@ import { CircularProgress } from 'material-ui/Progress';
 class Login extends Component {
 
   render() {
+    console.log(this.props.error)
     return (
       <Grid container justify="space-around" direction="row" spacing={0} style={{marginTop: '100px'}}>
         <Grid item xs={10} sm={6} md={4} lg={3}>

@@ -23,7 +23,6 @@ let Login = createReactClass({
 
   componentWillMount() {
     emitter.on('login', this.loginReturned);
-    emitter.on('Unauthorised', this.unauthorisedReturned);
   },
 
   componentWillUnmount() {
@@ -76,15 +75,9 @@ let Login = createReactClass({
     }
 
     if(!error) {
-      /*var user = {
-        emailAddress: this.state.emailAddress
-      }
-      this.props.setUser(user);
-      window.location.hash = 'admin';*/
-
       this.setState({loading: true, error: null});
       var content = { emailAddress: this.state.emailAddress, sha: sha256(this.state.emailAddress+':'+this.state.password).toUpperCase() };
-      dispatcher.dispatch({ type: 'login' })
+      dispatcher.dispatch({ type: 'login', content })
     }
   },
 
@@ -106,15 +99,15 @@ let Login = createReactClass({
       this.props.setUser(user);
 
       window.location.hash = 'admin';
-    } else if (data.errorMsg) {
-      this.setState({error: data.errorMsg, loading: false});
+    } else if (data.message) {
+      if(data.message == 'User not found') {
+        this.setState({loading: false, emailAddressError: true, passwordError: true, error: "Invalid credentials"})
+      } else {
+        this.setState({error: data.message, loading: false});  
+      }
     } else {
       this.setState({error: data.statusText, loading: false})
     }
-  },
-
-  unauthorisedReturned(error, data) {
-    this.setState({loading: false, emailAddressError: true, emailAddressErrorMessage: "Invalid credentials"})
   },
 })
 
