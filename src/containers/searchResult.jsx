@@ -6,6 +6,12 @@ let dispatcher = require('../store/store.js').default.dispatcher
 
 let SearchResult = createReactClass({
   getInitialState() {
+
+    var hasWhitelisted = false
+    if(this.props.result.State != null) {
+      hasWhitelisted = this.props.result.State.currentScreen == "whitelistJoined"
+    }
+
     return {
       cardMessage: '',
       cardError: '',
@@ -23,16 +29,18 @@ let SearchResult = createReactClass({
       wanchainAddressErrorMessage: '',
       allocation: this.props.result.Allocation,
       allocationError: false,
-      allocationErrorMessage: ''
+      allocationErrorMessage: '',
+
+      hasWhitelisted: hasWhitelisted
     };
   },
 
   componentWillMount() {
-    emitter.on('update', this.updateReturned);
+    emitter.on('update_'+this.props.result.Uuid, this.updateReturned);
   },
 
   componentWillUnmount() {
-    emitter.removeAllListeners('update');
+    emitter.removeAllListeners('update_'+this.props.result.Uuid);
   },
 
   render() {
@@ -40,9 +48,6 @@ let SearchResult = createReactClass({
         handleChange={this.handleChange}
         submitUpdate={this.submitUpdate}
         fixedEmailAddress={this.state.fixedEmailAddress}
-        emailAddress={this.state.emailAddress}
-        emailAddressError={this.state.emailAddressError}
-        emailAddressErrorMessage={this.state.emailAddressErrorMessage}
         ethereumAddress={this.state.ethereumAddress}
         ethereumAddressError={this.state.ethereumAddressError}
         ethereumAddressErrorMessage={this.state.ethereumAddressErrorMessage}
@@ -56,6 +61,7 @@ let SearchResult = createReactClass({
         cardError={this.state.cardError}
         error={this.state.error}
         loading={this.state.loading}
+        hasWhitelisted={this.state.hasWhitelisted}
       />)
   },
 
@@ -71,35 +77,25 @@ let SearchResult = createReactClass({
     this.setState({ cardMessage: '' })
     var error = false;
 
-    if(this.state.emailAddress == '') {
-      this.setState({emailAddressError: true, emailAddressErrorMessage: 'Invalid Allocation'});
-      error = true;
-    }
-
-    if(this.state.ethereumAddress == '') {
+    if(this.state.ethereumAddress == null || this.state.ethereumAddress == '') {
       this.setState({ethereumAddressError: true, ethereumAddressErrorMessage: 'Invalid Ethereum Address'});
       error = true;
     }
 
-    if(this.state.wanchainAddress == '') {
+    if(this.state.wanchainAddress == null || this.state.wanchainAddress == '') {
       this.setState({wanchainAddressError: true, wanchainAddressErrorMessage: 'Invalid Wanchain Address'});
       error = true;
     }
 
-    if(this.state.allocation == '') {
+    if(this.state.allocation == null || this.state.allocation == '') {
       this.setState({allocationError: true, allocationErrorMessage: 'Invalid Allocation'});
       error = true;
     }
 
     if(!error) {
       this.setState({loading: true, error: null});
-      var content = { uuid: this.props.result.Uuid, email: this.state.emailAddress, ethAddress: this.state.ethereumAddress, wanAddress: this.state.wanchainAddress, allocation: this.state.allocation };
+      var content = { uuid: this.props.result.Uuid, email: this.state.fixedEmailAddress, ethAddress: this.state.ethereumAddress, wanAddress: this.state.wanchainAddress, allocation: this.state.allocation };
       dispatcher.dispatch({ type: 'update', content, token: this.props.user.token, tokenKey: this.props.user.key })
-
-      /*setTimeout(() => {
-
-        return this.setState({loading: false, cardMessage: 'Presale applicant updated'});
-      }, 300)*/
     }
   },
 

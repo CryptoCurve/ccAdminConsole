@@ -75,7 +75,7 @@ let Admin = createReactClass({
 
     if(data.success) {
       var searchResults = data.decodedMessage;
-      console.log(searchResults)
+      
       this.setState({ searchResults , loading: false})
     } else if (data.errorMsg) {
       this.setState({error: data.errorMsg, loading: false});

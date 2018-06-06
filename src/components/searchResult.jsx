@@ -9,7 +9,17 @@ import { CircularProgress } from 'material-ui/Progress';
 class SearchResult extends Component {
 
   render() {
-    console.log(this.props.cardError)
+
+    var whitelistState = (<Typography variant='subheading' style={{color: 'red', display: 'inline-block', marginRight: '24px'}}>
+      This applicant has not whitelisted
+    </Typography>)
+
+    if(this.props.hasWhitelisted) {
+      whitelistState = (<Typography variant='subheading' style={{color: 'green', display: 'inline-block', marginRight: '24px'}}>
+        This applicant has whitelisted
+      </Typography>)
+    }
+
     return (
       <Card style={{ maxWidth: '600px', marginBottom: '12px' }} key={this.props.fixedEmailAddress}>
         <CardContent>
@@ -18,16 +28,14 @@ class SearchResult extends Component {
               <Typography variant='headline'>
                 {this.props.fixedEmailAddress}
               </Typography>
-              <TextField required fullWidth={true} color="textSecondary" error={this.props.emailAddressError} disabled={this.props.loading}
-                id="emailAddress" label="Email Address" value={this.props.emailAddress}
-                onChange={(event) => { this.props.handleChange(event, 'emailAddress'); }} margin="normal" helperText={this.props.emailAddressErrorMessage}  />
-              <TextField required fullWidth={true} color="textSecondary" error={this.props.ethereumAddressError} disabled={this.props.loading}
+              {whitelistState}
+              <TextField required fullWidth={true} color="textSecondary" error={this.props.ethereumAddressError} disabled={this.props.loading||!this.props.hasWhitelisted}
                 id="ethereumAddress" label="Ethereum Address" value={this.props.ethereumAddress}
                 onChange={(event) => { this.props.handleChange(event, 'ethereumAddress'); }} margin="normal" helperText={this.props.ethereumAddressErrorMessage}  />
-              <TextField required fullWidth={true} color="textSecondary" error={this.props.wanchainAddressError} disabled={this.props.loading}
+              <TextField required fullWidth={true} color="textSecondary" error={this.props.wanchainAddressError} disabled={this.props.loading||!this.props.hasWhitelisted}
                 id="wanchainAddress" label="Wanchain Address" value={this.props.wanchainAddress}
                 onChange={(event) => { this.props.handleChange(event, 'wanchainAddress'); }} margin="normal" helperText={this.props.wanchainAddressErrorMessage}  />
-              <TextField required fullWidth={true} color="textSecondary" error={this.props.allocationError} disabled={this.props.loading}
+              <TextField required fullWidth={true} color="textSecondary" error={this.props.allocationError} disabled={this.props.loading||!this.props.hasWhitelisted}
                 id="allocation" label="Allocation" value={this.props.allocation}
                 onChange={(event) => { this.props.handleChange(event, 'allocation'); }} margin="normal" helperText={this.props.allocationErrorMessage}  />
             </Grid>
@@ -39,7 +47,7 @@ class SearchResult extends Component {
               <Typography variant='subheading' style={{color: 'red', display: 'inline-block', marginRight: '24px'}}>
                 {this.props.cardError}
               </Typography>
-              <Button variant="raised" size='small' color='primary' onClick={this.props.submitUpdate} disabled={this.props.loading}>
+              <Button variant="raised" size='small' color='primary' onClick={this.props.submitUpdate} disabled={this.props.loading||!this.props.hasWhitelisted}>
                 Update
               </Button>
             </Grid>

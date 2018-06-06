@@ -79,6 +79,8 @@ var Store = () => {
       allocation: payload.content.allocation
     }
 
+    payload.type = 'update_'+payload.content.uuid
+
     this.callApi(url,
       version,
       'POST',
@@ -89,8 +91,6 @@ var Store = () => {
   this.callApi = function(url, version, method, postData, payload) {
     var call = apiUrl+version+url
 
-    console.log(call)
-    console.log(postData)
     if(method == 'GET') {
       postData = null
     } else {
