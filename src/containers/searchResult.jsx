@@ -8,19 +8,20 @@ let SearchResult = createReactClass({
   getInitialState() {
     return {
       cardMessage: '',
+      cardError: '',
       error: false,
       loading: false,
-      fixedEmailAddress: this.props.result.emailAddress,
-      emailAddress: this.props.result.emailAddress,
+      fixedEmailAddress: this.props.result.EmailAddress,
+      emailAddress: this.props.result.EmailAddress,
       emailAddressError: false,
       emailAddressErrorMessage: '',
-      ethereumAddress: this.props.result.ethereumAddress,
+      ethereumAddress: this.props.result.EthereumAddress,
       ethereumAddressError: false,
       ethereumAddressErrorMessage: '',
-      wanchainAddress: this.props.result.wanchainAddress,
+      wanchainAddress: this.props.result.WanchainAddress,
       wanchainAddressError: false,
       wanchainAddressErrorMessage: '',
-      allocation: this.props.result.allocation,
+      allocation: this.props.result.Allocation,
       allocationError: false,
       allocationErrorMessage: ''
     };
@@ -52,6 +53,7 @@ let SearchResult = createReactClass({
         allocationError={this.state.allocationError}
         allocationErrorMessage={this.state.allocationErrorMessage}
         cardMessage={this.state.cardMessage}
+        cardError={this.state.cardError}
         error={this.state.error}
         loading={this.state.loading}
       />)
@@ -91,8 +93,8 @@ let SearchResult = createReactClass({
 
     if(!error) {
       this.setState({loading: true, error: null});
-      var content = { uuid: this.props.result.uuid, email: this.state.emailAddress, ethAddress: this.state.ethereumAddress, wanAddress: this.state.wanchainAddress, allocation: this.state.allocation };
-      dispatcher.dispatch({ type: 'update', content })
+      var content = { uuid: this.props.result.Uuid, email: this.state.emailAddress, ethAddress: this.state.ethereumAddress, wanAddress: this.state.wanchainAddress, allocation: this.state.allocation };
+      dispatcher.dispatch({ type: 'update', content, token: this.props.user.token, tokenKey: this.props.user.key })
 
       /*setTimeout(() => {
 
@@ -109,12 +111,11 @@ let SearchResult = createReactClass({
 
     if(data.success) {
       var decodedData = data.decodedMessage;
-      return this.setState({loading: false, cardMessage: 'Presale applicant updated'});
-      //done
-    } else if (data.errorMsg) {
-      this.setState({error: data.errorMsg, loading: false});
+      this.setState({loading: false, cardMessage: 'Presale applicant updated'});
+    } else if (data.message) {
+      this.setState({cardError: 'Oops, an error occurred', loading: false});
     } else {
-      this.setState({error: data.statusText, loading: false})
+      this.setState({cardError: data.statusText, loading: false})
     }
   },
 })

@@ -97,8 +97,6 @@ let Login = createReactClass({
     if(data.success) {
       var decodedData = data.decodedMessage;
 
-      console.log(decodedData)
-
       var user = {
         emailAddress: decodedData.email
       }

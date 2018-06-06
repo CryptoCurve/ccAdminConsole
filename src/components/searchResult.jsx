@@ -35,6 +35,9 @@ class SearchResult extends Component {
               <Typography variant='subheading' style={{color: 'green', display: 'inline-block', marginRight: '24px'}}>
                 {this.props.cardMessage}
               </Typography>
+              <Typography variant='subheading' style={{color: 'red', display: 'inline-block', marginRight: '24px'}}>
+                {this.props.cardError}
+              </Typography>
               <Button variant="raised" size='small' color='primary' onClick={this.props.submitUpdate} disabled={this.props.loading}>
                 Update
               </Button>

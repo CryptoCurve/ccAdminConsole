@@ -26,7 +26,8 @@ class Admin extends Component {
     return this.props.searchResults.map((result) => {
       return (
         <SearchResult
-          key={result.emailAddress}
+          user={this.props.user}
+          key={result.EmailAddress}
           result={result} />
       )
     })

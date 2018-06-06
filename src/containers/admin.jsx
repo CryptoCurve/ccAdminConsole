@@ -24,6 +24,7 @@ let Admin = createReactClass({
 
   render() {
     return (<AdminComponent
+        user={this.props.user}
         handleChange={this.handleChange}
         submitSearch={this.submitSearch}
         onSearchKeyDown={this.onSearchKeyDown}
@@ -73,8 +74,9 @@ let Admin = createReactClass({
     }
 
     if(data.success) {
-      var decodedData = data.decodedMessage;
-      this.setState({searchResults: decodedData.searchResults, loading: false})
+      var searchResults = data.decodedMessage;
+      console.log(searchResults)
+      this.setState({ searchResults , loading: false})
     } else if (data.errorMsg) {
       this.setState({error: data.errorMsg, loading: false});
     } else {
