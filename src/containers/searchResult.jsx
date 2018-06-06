@@ -106,7 +106,7 @@ let SearchResult = createReactClass({
 
   updateReturned(error, data) {
     if(error) {
-      return this.setState({loading: false, error: error.toString()});
+      return this.setState({loading: false, cardError: error.toString()});
     }
 
     if(data.success) {

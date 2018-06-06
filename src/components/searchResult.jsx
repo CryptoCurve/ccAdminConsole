@@ -9,6 +9,7 @@ import { CircularProgress } from 'material-ui/Progress';
 class SearchResult extends Component {
 
   render() {
+    console.log(this.props.cardError)
     return (
       <Card style={{ maxWidth: '600px', marginBottom: '12px' }} key={this.props.fixedEmailAddress}>
         <CardContent>
