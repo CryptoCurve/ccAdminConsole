@@ -157,7 +157,7 @@ class App extends Component {
       case 'login':
         return (<Login setUser={this.setUser} />)
       case 'admin':
-        return (<Admin />)
+        return (<Admin user={this.state.user} />)
       default:
         return (<Login setUser={this.setUser} />)
     }

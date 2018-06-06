@@ -84,7 +84,7 @@ let Login = createReactClass({
 
       this.setState({loading: true, error: null});
       var content = { emailAddress: this.state.emailAddress, sha: sha256(this.state.emailAddress+':'+this.state.password).toUpperCase() };
-      dispatcher.dispatch({ type: 'login', content })
+      dispatcher.dispatch({ type: 'login' })
     }
   },
 
