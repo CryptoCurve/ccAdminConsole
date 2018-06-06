@@ -61,7 +61,7 @@ let Admin = createReactClass({
 
     if(!error) {
      this.setState({loading: true, error: null});
-      var content = { emailAddress: this.state.search };
+      var content = { email: this.state.search };
       dispatcher.dispatch({ type: 'search', content })
     }
   },

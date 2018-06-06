@@ -83,7 +83,7 @@ let Login = createReactClass({
       window.location.hash = 'admin';*/
 
       this.setState({loading: true, error: null});
-      var content = { emailAddress: this.state.emailAddress, sha: sha256(this.state.emailAddress+':'+this.state.password) };
+      var content = { emailAddress: this.state.emailAddress, sha: sha256(this.state.emailAddress+':'+this.state.password).toUpperCase() };
       dispatcher.dispatch({ type: 'login', content })
     }
   },
@@ -95,11 +95,17 @@ let Login = createReactClass({
     }
 
     if(data.success) {
-      var decodedData = this.decodeResponse(data.message);
+      var decodedData = data.decodedMessage;
 
-      decodedData.user.token = decodedData.token.token;
-      decodedData.user.key = sha256(decodedData.user.email_address);
-      this.props.setUser(decodedData.user);
+      console.log(decodedData)
+
+      var user = {
+        emailAddress: decodedData.email
+      }
+
+      user.token = decodedData.jwt.token;
+      user.key = sha256(decodedData.email);
+      this.props.setUser(user);
 
       window.location.hash = 'admin';
     } else if (data.errorMsg) {
