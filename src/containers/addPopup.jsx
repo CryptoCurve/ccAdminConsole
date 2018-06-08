@@ -68,7 +68,7 @@ let SearchResult = createReactClass({
   },
 
   submitAdd() {
-    this.setState({ cardMessage: '', emailAddressError: false, emailAddressErrorMessage: '', allocationError: false, allocationErrorMessage: '' })
+    this.setState({ cardMessage: '', cardError: '', emailAddressError: false, emailAddressErrorMessage: '', allocationError: false, allocationErrorMessage: '' })
     var error = false;
 
     if(this.state.emailAddress == null || this.state.emailAddress == '' || !email.validate(this.state.emailAddress)) {

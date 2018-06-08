@@ -24,7 +24,7 @@ class AddPopup extends Component {
         <DialogContent>
           <Grid container justify="space-between" direction="row" spacing={0} style={{position: 'relative'}}>
             <Grid item xs={12} >
-              <TextField required fullWidth={true} color="textSecondary" error={this.props.emailAddressError} disabled={this.props.loading}
+              <TextField required autoFocus fullWidth={true} color="textSecondary" error={this.props.emailAddressError} disabled={this.props.loading}
                 id="emailAddress" placeholder="Email Address" value={this.props.emailAddress} onKeyDown={this.props.onAddKeyDown}
                 onChange={(event) => { this.props.handleChange(event, 'emailAddress'); }} margin="normal" helperText={this.props.emailAddressErrorMessage}  />
               <TextField required fullWidth={true} color="textSecondary" error={this.props.allocationError} disabled={this.props.loading}
