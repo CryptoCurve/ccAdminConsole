@@ -40,8 +40,11 @@ class Admin extends Component {
           <TextField required autoFocus={true} type='search' style={{ minWidth: '400px', marginRight: '12px'}} color="textSecondary" error={this.props.searchError} disabled={this.props.loading}
             id="search" placeholder="Search for email address" value={this.props.search}
             onChange={(event) => { this.props.handleChange(event, 'search'); }} margin="normal" onKeyDown={this.props.onSearchKeyDown} helperText={this.props.searchErrorMessage} />
-          <Button variant="fab" color='primary' onClick={this.props.submitSearch} disabled={this.props.loading} style={{marginTop: '-3px'}} >
+          <Button variant="fab" color='primary' onClick={this.props.submitSearch} disabled={this.props.loading} style={{marginTop: '-3px', marginRight: '12px'}} >
             <SearchIcon />
+          </Button>
+          <Button variant="fab" color='secondary' onClick={this.props.openModal} disabled={this.props.loading} style={{marginTop: '-3px'}} >
+            +
           </Button>
         </Grid>
         <Grid item xs={12}>

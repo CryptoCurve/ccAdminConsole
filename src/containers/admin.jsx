@@ -1,5 +1,6 @@
 import React from 'react'
 import AdminComponent from '../components/admin'
+import AddPopup from './addPopup'
 const createReactClass = require('create-react-class')
 let emitter = require('../store/store.js').default.emitter
 let dispatcher = require('../store/store.js').default.dispatcher
@@ -10,7 +11,8 @@ let Admin = createReactClass({
       search: '',
       searchError: false,
       searchErrorMessage: null,
-      searchResults: []
+      searchResults: [],
+      open: false
     };
   },
 
@@ -23,18 +25,27 @@ let Admin = createReactClass({
   },
 
   render() {
-    return (<AdminComponent
-        user={this.props.user}
-        handleChange={this.handleChange}
-        submitSearch={this.submitSearch}
-        onSearchKeyDown={this.onSearchKeyDown}
-        search={this.state.search}
-        searchError={this.state.searchError}
-        searchErrorMessage={this.state.searchErrorMessage}
-        searchResults={this.state.searchResults}
-        error={this.state.error}
-        loading={this.state.loading}
-      />)
+    return (
+      <div>
+        <AdminComponent
+          user={this.props.user}
+          handleChange={this.handleChange}
+          openModal={this.openModal}
+          submitSearch={this.submitSearch}
+          onSearchKeyDown={this.onSearchKeyDown}
+          search={this.state.search}
+          searchError={this.state.searchError}
+          searchErrorMessage={this.state.searchErrorMessage}
+          searchResults={this.state.searchResults}
+          error={this.state.error}
+          loading={this.state.loading}
+        />
+        <AddPopup
+          user={this.props.user}
+          open={this.state.open}
+          closeModal={this.closeModal}
+        />
+      </div>)
   },
 
   handleChange (event, name) {
@@ -67,7 +78,6 @@ let Admin = createReactClass({
     }
   },
 
-
   searchReturned(error, data) {
     if(error) {
       return this.setState({loading: false, error: error.toString()});
@@ -75,7 +85,7 @@ let Admin = createReactClass({
 
     if(data.success) {
       var searchResults = data.decodedMessage;
-      
+
       this.setState({ searchResults , loading: false})
     } else if (data.errorMsg) {
       this.setState({error: data.errorMsg, loading: false});
@@ -83,6 +93,14 @@ let Admin = createReactClass({
       this.setState({error: data.statusText, loading: false})
     }
   },
+
+  openModal() {
+    this.setState({ open: true })
+  },
+
+  closeModal() {
+    this.setState({ open: false })
+  }
 })
 
 export default (Admin);

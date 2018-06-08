@@ -26,6 +26,9 @@ var Store = () => {
     case 'update':
       this.update(payload);
       break;
+    case 'add':
+      this.add(payload)
+      break;
     }
   }.bind(this))
 
@@ -80,6 +83,21 @@ var Store = () => {
     }
 
     payload.type = 'update_'+payload.content.uuid
+
+    this.callApi(url,
+      version,
+      'POST',
+      postJson,
+      payload)
+  }
+
+  this.add = function(payload) {
+    var url = 'add'
+    var version = 'api/v1/'
+    var postJson = {
+      email: payload.content.email,
+      allocation: payload.content.allocation
+    }
 
     this.callApi(url,
       version,
